@@ -1,0 +1,5 @@
+How does the total weight (Wt. Total) vary across months (Jan'23- Wt. Rev to Dec'23- Wt. Rev)?
+How does the headcount (HC) compare between quarters (Q1'23-HC to Q4'23- HC)?  
+How many projects fall under each Engineering/Tech category? 
+What is the distribution of projects across different GTM Categories? 
+How does the total weight vary across months?

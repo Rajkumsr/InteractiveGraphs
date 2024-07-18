@@ -1,0 +1,17 @@
+plot a graph for Date Created wise and Project ID with their Project Manager
+Generate a scatter plot showing the relationship between Total Project Turnover and Contract Value.
+Generate a pie chart representing the distribution of projects based on Complexity.
+Generate a bar chart showing the Total Project Turnover for each Client.
+Create a stacked bar chart showing the Open Amount Overdue and Open Amount Overdue2 for each Project ID.
+Create a histogram of the Average Sale Rate for all projects.
+Create a scatter plot comparing Complexity with Baseline Project Margin for each Project ID
+Generate a box plot comparing the Average Sale Rate for each Project Manager.
+Produce a grouped bar chart showing the frequency of different Closing Project: Action(s) to close
+Create a bar chart showing the distribution of DSO (Days Sales Outstanding) for each Client
+Generate a bubble chart with the x-axis representing Department Id, the y-axis representing the count of projects, and the size of the bubbles representing the number of projects per Client
+Create a heatmap where one axis represents Department Id and the other axis represents Complexity, with the color intensity representing the count of projects.
+Create a heatmap where one axis represents the months (derived from Date Created) and the other axis represents Department Id, with the color intensity representing the number of projects created.
+
+
+
+
