@@ -18,8 +18,6 @@ os.environ["OPENAI_API_KEY"] = api
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads/'
 
-server=app.server
-
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'txt', 'csv', 'xls', 'xlsx'}
 
