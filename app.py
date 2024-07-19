@@ -25,7 +25,7 @@ USERS = {
     'admin@expleogroup.com': 'expleo-pune@1234'
 }
 
-
+@app.route('/')
 def home():
     return redirect(url_for('login'))
 
