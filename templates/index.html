@@ -60,7 +60,7 @@
       <li><a href="https://expleo.com/global/en/about-us/" target="_blank">About us</a></li>
       <li><a href="#">Dashboard</a></li>
       <li>
-        <a href="#" class="action-url" data-href="01-index.html">
+        <a href="login" class="action-url" data-href="01-index.html">
           <span class="login-action">Logout</span>
         </a>
       </li>
@@ -81,13 +81,12 @@
         </div>
     </form>
 
-      <br>
+      <br> 
+      &nbsp
     <div>
       {% if graph_html %}
-      <p><b>Query:</b> {{ query }}</p>
-        <div class="graph">
-          {{ graph_html | safe }}
-        </div>
+        <p><b>User Query:</b> {{ query }}</p>
+        {{ graph_html | safe }}
       {% endif %}
       {% if explanation %}
           <p><b>Explanation:</b> {{ explanation }}</p>

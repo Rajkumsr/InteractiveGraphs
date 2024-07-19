@@ -22,10 +22,28 @@ app.config['UPLOAD_FOLDER'] = 'uploads/'
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'txt', 'csv', 'xls', 'xlsx'}
 
-@app.route("/")
+USERS = {
+    'admin@expleogroup.com': 'expleo-pune@1234'
+}
+
+
 def home():
-    return redirect(url_for('upload'))
-    
+    return redirect(url_for('login'))
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        # Check if the username and password are correct
+        if USERS.get(username) == password:
+            return redirect(url_for('upload'))
+
+        return render_template('login.html', error='Incorrect Username or Password')
+
+    return render_template('login.html')
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
