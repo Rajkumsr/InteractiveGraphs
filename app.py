@@ -1,7 +1,7 @@
 import io
 import os
 import dotenv
-from flask import Flask, redirect, render_template, request, send_file, url_for
+from flask import Flask, jsonify, redirect, render_template, request, session, url_for
 import pandas as pd
 from chat2plot import chat2plot
 from langchain_community.chat_models import ChatOpenAI
@@ -16,7 +16,9 @@ api = os.getenv('api_key')
 os.environ["OPENAI_API_KEY"] = api
 
 app = Flask(__name__)
+app.secret_key='your_secret_key'
 app.config['UPLOAD_FOLDER'] = 'uploads/'
+
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'txt', 'csv', 'xls', 'xlsx'}
@@ -25,7 +27,7 @@ USERS = {
     'admin@expleogroup.com': 'expleo-pune@1234'
 }
 
-@app.route('/')
+
 def home():
     return redirect(url_for('login'))
 
@@ -38,6 +40,7 @@ def login():
 
         # Check if the username and password are correct
         if USERS.get(username) == password:
+            session['username'] = username
             return redirect(url_for('upload'))
 
         return render_template('login.html', error='Incorrect Username or Password')
@@ -46,6 +49,9 @@ def login():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
     if request.method == 'POST':
 
         if 'file' not in request.files:
@@ -93,6 +99,9 @@ def upload():
 
 @app.route('/index', methods=['GET', 'POST'])
 def index():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
     if request.method == 'POST':
         query = request.form['query']
         
@@ -102,7 +111,6 @@ def index():
             c2p = chat2plot(df.copy(), chat=ChatOpenAI(model='gpt-3.5-turbo'))
             result = c2p(query)
             graph_html = pio.to_html(result.figure, full_html=False)
-            graph = result.figure
             explanation = result.explanation
             return render_template('index.html', graph_html=graph_html, explanation=explanation, query=query)
         except Exception as e:
@@ -111,18 +119,28 @@ def index():
     else:
         return render_template('index.html')
     
-# @app.route('/generate_plot', methods=['POST'])
-# def saveGraph():
-#     global graph
-
-#     image_bytes = to_image(graph, format="png")
-
-#     with open("plot.png", "wb") as f:
-#         f.write(image_bytes)
-        
-# @app.route("/promptSuggestion")
-# def promptSuggestion():
-#     return render_template('promptSuggestion.html')
+dashboard_plots = []
+@app.route('/save_to_dashboard', methods=['POST'])
+def save_to_dashboard():
+    if 'username' not in session:
+        return jsonify({'error': 'User not logged in'}), 401
+    
+    data = request.get_json()
+    img_uri = data.get('img_uri')
+    prompt = data.get('prompt')
+ 
+    if img_uri and prompt:
+        # Save the plot to the dashboard
+        dashboard_plots.append({'prompt': prompt, 'img_uri': img_uri})
+        return jsonify({'success': True})
+    return jsonify({'error': 'Invalid data'}), 400
+ 
+@app.route('/dashboard')
+def dashboard():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+                        
+    return render_template('dashboard.html', dashboard_plots=dashboard_plots)
 
 if __name__ == '__main__':
     app.run_server(debug=True)

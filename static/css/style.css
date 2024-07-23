@@ -4,6 +4,7 @@ body {
     padding: 0;
     background-color: #f2f2f2;
 }
+
 h1 {
     text-align: center;
     color: #333;
@@ -52,10 +53,7 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #8d6ee3;
 }
-p {
-    margin-top: 15px;
-    color: #333;
-}
+
 p.error {
     color: red;
     margin-top: 10px;
@@ -71,9 +69,23 @@ p.error {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.graph
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+.graphGeneration p {
+    margin-bottom: 10px;
+    padding: 50px
 }
+  
+#graph-html {
+    width: 1500px; /* Adjust width as needed */
+    height: 450px; /* Equal height and width to make it square */
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden; /* Ensure content does not overflow */
+    margin: 0 auto;
+}
+  
+#buttons {
+    margin-top: 20px;
+    margin-left: 30px;
+    padding: 10px 20px; /* Adjust padding as needed */
+} 

@@ -58,7 +58,7 @@
     <ul class="align-items-center">
       <li><a href="upload">Home</a></li>
       <li><a href="https://expleo.com/global/en/about-us/" target="_blank">About us</a></li>
-      <li><a href="#">Dashboard</a></li>
+      <li><a href="dashboard">Dashboard</a></li>
       <li>
         <a href="login" class="action-url" data-href="01-index.html">
           <span class="login-action">Logout</span>
@@ -82,11 +82,17 @@
     </form>
 
       <br> 
-      &nbsp
-    <div>
+      &nbsp;
+
+    <div class="graphGeneration">
       {% if graph_html %}
-        <p><b>User Query:</b> {{ query }}</p>
-        {{ graph_html | safe }}
+        <p id="Query"><b>User Query:</b> {{ query }}</p>
+        <div id="graph-html">{{ graph_html | safe }}</div>
+        <div id="buttons">
+          <button id="save-to-dashboard" class="btn btn-primary">Save to Dashboard</button>
+          &nbsp;
+          <!-- <button id="clearDashboard" class="btn btn-primary">Clear Dashboard</button> -->
+        </div>
       {% endif %}
       {% if explanation %}
           <p><b>Explanation:</b> {{ explanation }}</p>
@@ -96,10 +102,39 @@
       {% endif %}
     </div>
 
-    <!-- <form id="dashboardForm" action="/generate_plot" method="POST">
-      <input type="submit" value="Add to Dashboard" id="addToDashboardBtn">
-    </form> -->
-
     <br><br>
 </body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("#save-to-dashboard").click(function () {
+          var img_uri = $("#graph-html").html();
+          var prompt = "{{ query }}";
+
+          $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/save_to_dashboard",
+            data: JSON.stringify({ img_uri: img_uri, prompt: prompt }),
+            success: function (data) {
+              if (data.success) {
+                alert("Plot saved to dashboard!");
+              } else {
+                alert("Error: Unable to save plot to dashboard.");
+              }
+            },
+            error: function (error) {
+              if (error.status === 401) {
+                alert("Error: User not logged in. Please log in first.");
+                window.location.href = "/login"; // Redirect to login page
+              } else {
+                alert("Error: Unable to save plot to dashboard.");
+                console.error("Error:", error);
+              }
+            },
+          });
+        });
+      });
+    </script>
 </html>
