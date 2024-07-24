@@ -55,7 +55,7 @@ input[type="submit"]:hover {
 }
 
 p.error {
-    color: red;
+    color: #6846C6;
     margin-top: 10px;
 }
 

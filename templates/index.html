@@ -95,7 +95,8 @@
           <p><b>Explanation:</b> {{ explanation }}</p>
       {% endif %}
       {% if error_message %}
-          <p class="error">Error: {{ error_message }}</p>
+          <!-- <p>{{msg}}</p> -->
+          <p class="error">{{msg}}: {{ error_message }}</p>
       {% endif %}
     </div>
 

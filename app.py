@@ -121,16 +121,20 @@ def index():
                 f"{data.head(5).to_string()}\n\n"
                 f"Based on this data, address the following query: '{query}'. "
                 "Generate an accurate visualization, provide a comprehensive explanation, and offer any significant insights or trends. "
-                "Ensure to handle any data inconsistencies or conversion issues you encounter."
+                "Ensure to handle any data inconsistencies or conversion issues you encounter. "
+                "In case the fig parameter must be a dict or Figure, make sure to initialize fig correctly before using it. "
+                "If fig is None, initialize it using appropriate libraries like Matplotlib or Plotly before proceeding with the visualization."
             )
             c2p = chat2plot(data.copy(), chat=ChatOpenAI(model='gpt-3.5-turbo'))
             result = c2p(full_query)
+            print(result)
             graph_html = pio.to_html(result.figure, full_html=False)
             explanation = result.explanation
             return render_template('index.html', graph_html=graph_html, explanation=explanation, query=query)
         except Exception as e:
             error_message = str(e)
-            return render_template('index.html', error_message=error_message)
+            msg = 'Try valid question'
+            return render_template('index.html', error_message=error_message, msg=msg)
     else:
         return render_template('index.html')
     
