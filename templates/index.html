@@ -81,15 +81,12 @@
         </div>
     </form>
 
-      <br> 
-      &nbsp;
-
     <div class="graphGeneration">
       {% if graph_html %}
         <p id="Query"><b>User Query:</b> {{ query }}</p>
         <div id="graph-html">{{ graph_html | safe }}</div>
         <div id="buttons">
-          <button id="save-to-dashboard" class="btn btn-primary">Save to Dashboard</button>
+          <button id="save-to-dashboard" class="btn btn-primary" style="background-color: #6846C6;">Save to Dashboard</button>
           &nbsp;
           <!-- <button id="clearDashboard" class="btn btn-primary">Clear Dashboard</button> -->
         </div>
